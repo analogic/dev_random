@@ -1,0 +1,5 @@
+name: dev_random
+version: 0.0.1
+author: Analogic s.r.o. <info@analogic.cz>
+description: Simple wrapper for /dev/(u)random with math.Random interface
+dependencies:
