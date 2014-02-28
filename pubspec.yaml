@@ -2,6 +2,7 @@ name: dev_random
 version: 0.0.1
 author: Analogic s.r.o. <info@analogic.cz>
 description: Simple wrapper for /dev/(u)random with math.Random interface
+homepage: https://github.com/analogic/dev_random
 dependencies:
 dev_dependencies:
   unittest: any
