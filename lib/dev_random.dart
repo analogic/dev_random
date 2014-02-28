@@ -55,6 +55,33 @@ class DevRandom implements Random {
       _readBytesAsync(1)
       .then((var bytes) => (bytes[0] & 1) == 0);
   
+  static const ALPHA = 'abcdefghijklmnopqrstuvwxz';
+  static const ALPHA_LOWERCASE = 'abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  static const ALPHANUM = 'abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  static const ALL = 'abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`!"?\$?%^&*()_-+={[}]:;@\'~#|\<,>.?/';
+  
+  /**
+   * Generates random string with given length and from given chars
+   */
+  String nextString(int length, [String chars = ALL]) {
+    int max = chars.length;
+    String result = '';
+    for(var i = 0; i < length; i++) {
+      result += chars[nextInt(max)];
+    }
+    return result;
+  }
+  
+  /**
+   * Generates asynchronously random string with given length and 
+   * from given chars
+   */
+  Future<String> nextStringAsync(int length, [String chars = ALL]) {
+    int max = chars.length;
+    List<Future<String>> f = new List.filled(length, nextIntAsync(max).then((int v) => chars[v]));
+    return Future.wait(f).then((List<String> a) => a.fold('', (prev, element) => prev + element));
+  }
+  
   /**
    * Not implemented yet
    */
@@ -77,8 +104,8 @@ class DevRandom implements Random {
     List<int> data;
     
     return _source.open(mode: FileMode.READ)
-    .then((fd) => fd.read(count))
-    .then((data) => fd.close())
+    .then((f) { fd = f; return fd.read(count);})
+    .then((d) { data = d; return fd.close(); })
     .then((_) => data);
   }
   

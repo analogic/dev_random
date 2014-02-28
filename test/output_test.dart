@@ -8,16 +8,25 @@ void main() {
     
     expect(rnd.nextBool() is bool, isTrue);
     expect(rnd.nextInt(10) is int, isTrue);
+    
+    expect(rnd.nextString(10) is String, isTrue);
+    expect(rnd.nextString(10).length == 10, isTrue);
   });
   
   test("async", () {
     var rnd = new DevRandom();
     
     var callback = expectAsync((var v) => expect(v is bool, isTrue));
-    callback(rnd.nextBool());
+    rnd.nextBoolAsync().then(callback);
     
     var callback1 = expectAsync((var v) => expect(v is int, isTrue));
-    callback1(rnd.nextInt(10));
+    rnd.nextIntAsync(10).then(callback1);
+    
+    var callback2 = expectAsync((var v) => expect(v is String, isTrue));
+    rnd.nextStringAsync(10).then(callback2);
+    
+    var callback3 = expectAsync((String v) => expect(v.length == 10, isTrue));
+    rnd.nextStringAsync(10).then(callback3);
   });
   
   test("values", () {
