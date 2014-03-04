@@ -1,3 +1,5 @@
+library dev_random;
+
 import 'dart:math';
 import 'dart:io';
 import 'dart:async';
